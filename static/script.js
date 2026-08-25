@@ -181,4 +181,222 @@ cityInput.addEventListener(
         }
     }
 );
+// =====================================================
+// AI WEATHER AGENT
+// =====================================================
+
+
+const aiQuestion =
+    document.getElementById(
+        "aiQuestion"
+    );
+
+
+const askAIButton =
+    document.getElementById(
+        "askAIButton"
+    );
+
+
+const aiLoading =
+    document.getElementById(
+        "aiLoading"
+    );
+
+
+const aiError =
+    document.getElementById(
+        "aiError"
+    );
+
+
+const aiAnswer =
+    document.getElementById(
+        "aiAnswer"
+    );
+
+
+const aiAnswerText =
+    document.getElementById(
+        "aiAnswerText"
+    );
+
+
+// -----------------------------------------------------
+// Ask AI
+// -----------------------------------------------------
+
+async function askWeatherAgent() {
+
+    const city =
+        cityInput.value.trim();
+
+
+    const question =
+        aiQuestion.value.trim();
+
+
+    // Check city
+
+    if (!city) {
+
+        aiError.textContent =
+            "Please enter a city first.";
+
+        aiError.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    // Check question
+
+    if (!question) {
+
+        aiError.textContent =
+            "Please enter a question.";
+
+        aiError.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    // Show loading
+
+    aiLoading.classList.remove(
+        "hidden"
+    );
+
+
+    aiError.classList.add(
+        "hidden"
+    );
+
+
+    aiAnswer.classList.add(
+        "hidden"
+    );
+
+
+    askAIButton.disabled = true;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/agent",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        city: city,
+
+                        question: question
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "AI Agent failed."
+            );
+
+        }
+
+
+        // Display AI answer
+
+        aiAnswerText.textContent =
+            data.answer;
+
+
+        aiAnswer.classList.remove(
+            "hidden"
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        aiError.textContent =
+            error.message ||
+            "Unable to contact AI Agent.";
+
+
+        aiError.classList.remove(
+            "hidden"
+        );
+
+
+    } finally {
+
+        aiLoading.classList.add(
+            "hidden"
+        );
+
+
+        askAIButton.disabled = false;
+
+    }
+
+}
+
+
+// -----------------------------------------------------
+// Button
+// -----------------------------------------------------
+
+askAIButton.addEventListener(
+    "click",
+    askWeatherAgent
+);
+
+
+// -----------------------------------------------------
+// Enter key
+// -----------------------------------------------------
+
+aiQuestion.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            askWeatherAgent();
+
+        }
+
+    }
+);
+
 
