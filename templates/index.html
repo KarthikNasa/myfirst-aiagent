@@ -133,6 +133,84 @@
         </div>
 
     </div>
+<!-- =====================================================
+     AI WEATHER AGENT
+====================================================== -->
+
+<div class="ai-agent">
+
+    <div class="ai-header">
+
+        <div class="ai-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <h3>
+                AI Weather Assistant
+            </h3>
+
+            <p>
+                Ask me anything about the weather
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="ai-question">
+
+        <input
+            type="text"
+            id="aiQuestion"
+            placeholder="Example: Should I carry an umbrella?"
+        >
+
+        <button
+            id="askAIButton">
+
+            Ask AI
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="aiLoading"
+        class="ai-loading hidden">
+
+        🤖 AI is analyzing the weather...
+
+    </div>
+
+
+    <div
+        id="aiError"
+        class="ai-error hidden">
+    </div>
+
+
+    <div
+        id="aiAnswer"
+        class="ai-answer hidden">
+
+        <div class="ai-answer-title">
+
+            🤖 AI Weather Analysis
+
+        </div>
+
+        <div
+            id="aiAnswerText">
+        </div>
+
+    </div>
+
+</div>
+
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
